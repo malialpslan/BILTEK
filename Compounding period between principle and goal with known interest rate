@@ -1,0 +1,9 @@
+def compounded_annually(Principle , rate, goal):
+    divide = 0
+    rate_ = 0
+    compounding_per = 0
+    if Principle > 0 :
+        divide = goal / Principle
+        rate_ = (1 + (rate))
+        compounding_per = mt.log(divide, rate_)
+    print(math.ceil(compounding_per))
