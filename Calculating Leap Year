@@ -1,0 +1,14 @@
+year = int(input("Yıl değeri giriniz.."))
+print(year, "yılını girdiniz.")
+calc = year
+
+if (calc % 4 == 0 ):
+    if( calc % 100 == 0):
+        if( calc % 400 == 0):
+            print("Girdiğiniz", year, 'değeri artık yıldır.')
+        else:
+            print("Artık yıl değeri girmediniz.")
+    else:
+            print("Girdiğiniz", year, 'değeri artık yıldır.')
+else:
+            print('Artık yıl değeri girmediniz..')
