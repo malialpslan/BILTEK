@@ -1,0 +1,31 @@
+import requests
+import os
+import csv
+
+
+with open(r"cities.txt", encoding="utf-8") as cities:
+    contents = cities.read().splitlines()
+str_req = r"http://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}"
+##USE YOUR PERSONAL API KEY
+api_key = "..."
+
+with open('hava_deger.csv', 'w', newline='', encoding="utf-8") as csvfile:
+    fieldnames = ['Şehir ismi', 'Ülke kodu', 'Enlem/Boylam', 'Sıcaklık', 'Rüzgar Hızı', 'Rüzgar Yönü']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    writer.writeheader()
+
+for line in contents:
+    response = requests.get(str_req.format(line, api_key))
+    my_weather = response.json()
+    if my_weather['cod'] == 200:
+            my_weather = (line,my_weather['sys']['country'],my_weather['coord']['lon'],my_weather['coord']['lat'], (float(my_weather['main']['temp']) - 273), my_weather['wind']['speed'], my_weather['wind']['deg'])
+            print(my_weather)
+            with open('hava_deger.csv', 'a', newline='', encoding="utf-8") as csvfile:
+                fieldnames = ['Şehir ismi', 'Ülke kodu', 'Enlem/Boylam', 'Sıcaklık', 'Rüzgar Hızı', 'Rüzgar Yönü']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writerow({'Şehir ismi': my_weather[0], 'Ülke kodu': my_weather[1], 'Enlem/Boylam': my_weather[2 : 4],
+                                     'Sıcaklık': my_weather[4], 'Rüzgar Hızı': my_weather[5], 'Rüzgar Yönü': my_weather[6]})
+
+    else:
+        break
+
